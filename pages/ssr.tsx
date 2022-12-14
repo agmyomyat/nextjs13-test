@@ -5,7 +5,7 @@ export default function Ssr({ data }: InferGetServerSidePropsType<typeof getServ
 interface Data {
 	result: string;
 }
-export const getServerSideProps: GetServerSideProps<{ data: Data }> = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 	try {
 		const response = await fetch("https://r2.eiga.workers.dev");
 		const data: Data = await response.json();
@@ -17,6 +17,11 @@ export const getServerSideProps: GetServerSideProps<{ data: Data }> = async ({ r
 			},
 		};
 	} catch (e: any) {
-		throw Error(e.message);
+		console.log(e.message);
+		return {
+			props: {
+				error: e.message,
+			},
+		};
 	}
 };
