@@ -14,10 +14,14 @@ interface Data {
 }
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 	try {
-		const response = await fetch("https://r2.eiga.workers.dev");
+		const response = await fetch("https://eu2-merry-lobster-30387.upstash.io/get/foo", {
+			headers: {
+				Authorization:
+					"Bearer AXazACQgY2NlNzFmOTMtMzFiNy00ODdkLTg0Y2UtNzI0MDNhZTFmMjA2ZjZjNzdlMjBmNGM1NGYxMmJhZDMzYjc1Yjk0MDE0NTA=",
+			},
+		});
 		const data: Data = await response.json();
 		console.log(data);
-		res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=59");
 		return {
 			props: {
 				data,
