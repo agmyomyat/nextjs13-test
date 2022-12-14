@@ -1,4 +1,3 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 // export default function Ssr({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 // 	return <div>{JSON.stringify(data)}</div>;
 // }
