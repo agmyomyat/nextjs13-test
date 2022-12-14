@@ -12,8 +12,10 @@ export default function Ssr(props: InferGetServerSidePropsType<typeof getServerS
 interface Data {
 	result: string;
 }
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async context => {
 	try {
+		const kv = await (context as any).env.PIWARE.get("foo");
+
 		const response = await fetch("https://eu2-merry-lobster-30387.upstash.io/get/foo", {
 			headers: {
 				Authorization:
@@ -24,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 		console.log(data);
 		return {
 			props: {
-				data,
+				kv,
 			},
 		};
 	} catch (e: any) {
