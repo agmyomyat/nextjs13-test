@@ -1,9 +1,13 @@
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { useEffect } from "react";
 export const config = {
 	runtime: "experimental-edge",
 };
-export default function Ssr({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-	return <div>{JSON.stringify(data)}</div>;
+export default function Ssr(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	useEffect(() => {
+		console.log("prop", props);
+	}, [props]);
+	return <div>{JSON.stringify(props)}</div>;
 }
 interface Data {
 	result: string;
@@ -16,8 +20,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 		res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=59");
 		return {
 			props: {
-				runtime: process.env.NEXT_RUNTIME,
-
 				data,
 			},
 		};
