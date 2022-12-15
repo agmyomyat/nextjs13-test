@@ -1,5 +1,11 @@
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useEffect } from "react";
+import { Redis } from "@upstash/redis";
+
+const redis = new Redis({
+	url: "https://eu2-merry-lobster-30387.upstash.io",
+	token: "AXazACQgY2NlNzFmOTMtMzFiNy00ODdkLTg0Y2UtNzI0MDNhZTFmMjA2ZjZjNzdlMjBmNGM1NGYxMmJhZDMzYjc1Yjk0MDE0NTA=",
+});
 export const config = {
 	runtime: "experimental-edge",
 };
@@ -24,17 +30,11 @@ export const getServerSideProps: GetServerSideProps = async context => {
 		// 		},
 		// 	}
 		// );
-		const response = await fetch("https://eu2-merry-lobster-30387.upstash.io/get/foo", {
-			headers: {
-				Authorization:
-					"Bearer AXazACQgY2NlNzFmOTMtMzFiNy00ODdkLTg0Y2UtNzI0MDNhZTFmMjA2ZjZjNzdlMjBmNGM1NGYxMmJhZDMzYjc1Yjk0MDE0NTA=",
-			},
-		});
-		const json = await response.json();
-		console.log(json);
+		const response = await redis.get("foo");
+		console.log(response);
 		return {
 			props: {
-				...json,
+				response,
 			},
 		};
 	} catch (e: any) {
