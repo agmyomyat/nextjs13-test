@@ -1,6 +1,6 @@
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useEffect } from "react";
-import Redis from "ioredis";
+import { Redis } from "@upstash/redis";
 //default:Ub3JEH1DI5frnfDDsTUQd2Y5oRZBMJ@tcp-mo2.mogenius.io:29504
 // new Redis({
 // 	port: 29504, // Redis port
@@ -17,10 +17,10 @@ import Redis from "ioredis";
 // } catch (e: any) {
 // 	console.log(e.message);
 // }
-// const redis = new Redis({
-// 	url: "https://eu2-merry-lobster-30387.upstash.io",
-// 	token: "AXazACQgY2NlNzFmOTMtMzFiNy00ODdkLTg0Y2UtNzI0MDNhZTFmMjA2ZjZjNzdlMjBmNGM1NGYxMmJhZDMzYjc1Yjk0MDE0NTA=",
-// });
+const redis = new Redis({
+	url: "https://eu2-merry-lobster-30387.upstash.io",
+	token: "AXazACQgY2NlNzFmOTMtMzFiNy00ODdkLTg0Y2UtNzI0MDNhZTFmMjA2ZjZjNzdlMjBmNGM1NGYxMmJhZDMzYjc1Yjk0MDE0NTA=",
+});
 export const config = {
 	runtime: "experimental-edge",
 };
@@ -35,9 +35,6 @@ interface Data {
 	result: string;
 }
 export const getServerSideProps: GetServerSideProps = async context => {
-	const redis = new Redis(
-		"redis://default:f6c77e20f4c54f12bad33b75b9401450@eu2-merry-lobster-30387.upstash.io:30387"
-	);
 	try {
 		// const kv = await fetch(
 		// 	"https://api.cloudflare.com/client/v4/accounts/38b160f8095b196eabcc729f65528a08/storage/kv/namespaces/f45655ac40214bc4ae4fe149ca655438/values/foo",
